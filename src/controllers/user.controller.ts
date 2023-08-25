@@ -1,7 +1,12 @@
 import { Request, Response } from "express";
 import { body } from "express-validator";
 import { errorResponse, successResponse } from "../utils/responseHandler";
-import { CreateUser, GetAllUsers, UserExists } from "../services/UserService";
+import {
+  CreateUser,
+  GetAllUsers,
+  GetUsersByMostPosts,
+  UserExists,
+} from "../services/UserService";
 import { GetPosts } from "../services/PostService";
 
 export const userValidationRules = () => [
@@ -50,6 +55,16 @@ export const getAllUserPosts = async (req: Request, res: Response) => {
     }
 
     const response = await GetPosts({ author: id });
+
+    return successResponse(res, 200, response);
+  } catch (error: any) {
+    return errorResponse(res, 500, error.message);
+  }
+};
+
+export const getUsersByMostPosts = async (_req: Request, res: Response) => {
+  try {
+    const response = await GetUsersByMostPosts();
 
     return successResponse(res, 200, response);
   } catch (error: any) {

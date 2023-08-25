@@ -16,4 +16,5 @@ export const config: ConfigTypes = {
   DB_PASSWORD: envVariables.DB_PASSWORD,
   DB_NAME: envVariables.DB_NAME,
   DB_HOST: envVariables.DB_HOST,
+  JWT_SECRET: envVariables.JWT_SECRET,
 };

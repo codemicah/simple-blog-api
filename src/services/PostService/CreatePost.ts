@@ -6,7 +6,10 @@ export const CreatePost = async (
 ): Promise<IPost> => {
   const { title, content, author } = post;
   const query = {
-    text: `INSERT INTO Posts (title, content, author) VALUES ($1, $2, $3) RETURNING *`,
+    text: `
+    INSERT INTO Posts (title, content, author) 
+    VALUES ($1, $2, $3) 
+    RETURNING *`,
     values: [title, content, author],
   };
 

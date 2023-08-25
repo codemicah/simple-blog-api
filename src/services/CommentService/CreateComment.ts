@@ -7,7 +7,9 @@ export const CreateComment = async (
   const { content, postId, userId } = comment;
 
   const query = {
-    text: "INSERT INTO Comments (content, postId, userId) VALUES ($1, $2, $3) RETURNING *",
+    text: `
+    INSERT INTO Comments (content, postId, userId) VALUES ($1, $2, $3) 
+    RETURNING *`,
     values: [content, postId, userId],
   };
   const response = await dbQuery(query);

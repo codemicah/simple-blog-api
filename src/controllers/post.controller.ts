@@ -10,10 +10,20 @@ export const postValidationRules = () => [
 
 export const createPost = async (req: Request, res: Response) => {
   try {
+    const { user } = req;
     let { id } = req.params;
     const { title, content } = req.body;
     // convert to number for struct checking
     const userId = Number(id);
+
+    // the id in the token provided must match the post author
+    if (user.id != userId) {
+      return errorResponse(
+        res,
+        401,
+        "You cannot create a post for another user"
+      );
+    }
 
     if (!userId || !UserExists({ id })) {
       return errorResponse(res, 400, "Invalid user id");

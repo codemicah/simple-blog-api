@@ -12,7 +12,8 @@ export const CreateUser = async (
   const query = {
     text: `
     INSERT INTO Users (firstName, lastName, email, password)
-    VALUES ($1, $2, $3, $4) RETURNING firstName, lastName, email, totalPosts
+    VALUES ($1, $2, $3, $4) 
+    RETURNING firstName, lastName, email, totalPosts
   `,
     values: [firstName, lastName, email, passwordHash],
   };

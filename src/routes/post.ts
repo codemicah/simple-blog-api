@@ -4,8 +4,10 @@ import {
   createComment,
 } from "../controllers/comment.controller";
 import validateRequest from "../middlewares/requestValidator";
+import { auth } from "../auth/auth";
 
 const router = Router();
+router.use(auth);
 
 router.post(
   "/:postId/comments",

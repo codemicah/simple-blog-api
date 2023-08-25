@@ -3,7 +3,9 @@ import dbQuery from "../../config/database";
 
 export const GetAllUsers = async (): Promise<IUser[]> => {
   const query = {
-    text: "SELECT id,firstName, lastName, email, totalPosts FROM Users",
+    text: `
+    SELECT id,firstName, lastName, email, totalPosts 
+    FROM Users`,
   };
 
   const users = await dbQuery(query);
@@ -11,7 +13,9 @@ export const GetAllUsers = async (): Promise<IUser[]> => {
   return users;
 };
 
-export const UserExists = async (filter: Partial<Record<keyof IUser, any>>) => {
+export const UserExists = async (
+  filter: Partial<Record<keyof IUser, any>>
+): Promise<IUser | undefined> => {
   // contruct an SQL query from the filter
   let queryFilter = "";
   const values = [];
@@ -31,6 +35,40 @@ export const UserExists = async (filter: Partial<Record<keyof IUser, any>>) => {
 
   const response = await dbQuery(query);
 
-  if (response.length) return true;
-  return false;
+  return response[0];
+};
+
+export const GetUsersByMostPosts = async (limit = 3) => {
+  const query = {
+    text: `
+  SELECT
+  u.id,
+  u.firstName,
+  u.lastName,
+  u.totalPosts,
+  json_build_object('content', c.content) AS latestComment
+FROM
+  Users u
+LEFT JOIN LATERAL (
+  SELECT
+    content
+  FROM
+    Comments com
+  WHERE
+    com.userId = u.id
+  ORDER BY
+    com.createdAt DESC
+  LIMIT 1
+) c ON TRUE
+WHERE totalPosts > 0
+ORDER BY
+  u.totalPosts DESC
+LIMIT 3;
+
+`,
+  };
+
+  const response = await dbQuery(query);
+
+  return response;
 };

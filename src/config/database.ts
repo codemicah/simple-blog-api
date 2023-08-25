@@ -19,11 +19,15 @@ pool.on("error", (err, _client) => {
 });
 
 pool.on("connect", (client) => {
+  // create Users table
   client.query(userSchema);
+  // create Posts table
   client.query(postSchema);
+  // create Comments table
   client.query(commentSchema);
 });
 
+// function to facilitate queries
 const dbQuery = async (query: QueryConfig) => {
   const response = await pool.query(query);
   return response.rows;

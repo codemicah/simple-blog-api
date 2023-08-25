@@ -3,6 +3,7 @@ import {
   createUser,
   getAllUserPosts,
   getAllUsers,
+  getUsersByMostPosts,
   userValidationRules,
 } from "../controllers/user.controller";
 import validateRequest from "../middlewares/requestValidator";
@@ -10,15 +11,24 @@ import {
   createPost,
   postValidationRules,
 } from "../controllers/post.controller";
+import { auth } from "../auth/auth";
 
 const router = Router();
 
 router.post("/", userValidationRules(), validateRequest, createUser);
 
-router.get("/", getAllUsers);
+router.get("/", auth, getAllUsers);
 
-router.post("/:id/posts", postValidationRules(), validateRequest, createPost);
+router.get("/most-posts", auth, getUsersByMostPosts);
 
-router.get("/:id/posts", getAllUserPosts);
+router.post(
+  "/:id/posts",
+  auth,
+  postValidationRules(),
+  validateRequest,
+  createPost
+);
+
+router.get("/:id/posts", auth, getAllUserPosts);
 
 export default router;

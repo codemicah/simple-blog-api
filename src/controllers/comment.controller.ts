@@ -9,6 +9,7 @@ export const commentValidationRules = () => body("content").isString();
 export const createComment = async (req: Request, res: Response) => {
   try {
     const { postId } = req.params;
+    // parse postId for strict validation
     const parsedPostId = Number(postId);
 
     if (!parsedPostId) {
