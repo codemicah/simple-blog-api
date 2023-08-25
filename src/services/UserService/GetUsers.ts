@@ -41,31 +41,25 @@ export const UserExists = async (
 export const GetUsersByMostPosts = async (limit = 3) => {
   const query = {
     text: `
-  SELECT
-  u.id,
-  u.firstName,
-  u.lastName,
-  u.totalPosts,
-  json_build_object('content', c.content) AS latestComment
-FROM
-  Users u
-LEFT JOIN LATERAL (
-  SELECT
-    content
-  FROM
-    Comments com
-  WHERE
-    com.userId = u.id
-  ORDER BY
-    com.createdAt DESC
-  LIMIT 1
-) c ON TRUE
-WHERE totalPosts > 0
-ORDER BY
-  u.totalPosts DESC
-LIMIT 3;
-
-`,
+    SELECT
+    u.id,
+    u.firstName,
+    u.lastName,
+    u.totalPosts,
+    json_build_object(
+      'content', c.content
+    ) AS latestComment
+    FROM Users u
+    LEFT JOIN LATERAL (
+      SELECT content
+      FROM Comments com
+      WHERE com.userId = u.id
+      ORDER BY com.createdAt DESC
+      LIMIT 1
+    ) c ON TRUE
+    WHERE totalPosts > 0
+    ORDER BY u.totalPosts DESC
+    LIMIT 3`,
   };
 
   const response = await dbQuery(query);

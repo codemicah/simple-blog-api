@@ -9,8 +9,8 @@ interface IComment {
 const commentSchema = `
   CREATE TABLE IF NOT EXISTS Comments (
     id SERIAL PRIMARY KEY,
-    postId INT REFERENCES posts(id),
-    userId INT REFERENCES users(id),
+    postId INT REFERENCES posts(id) ON DELETE CASCADE,
+    userId INT REFERENCES users(id) ON DELETE CASCADE,
     content TEXT,
     createdAt TIMESTAMP DEFAULT NOW()
   )

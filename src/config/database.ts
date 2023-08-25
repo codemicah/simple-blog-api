@@ -11,6 +11,7 @@ const pool = new Pool({
   user: DB_USER,
   password: DB_PASSWORD,
   database: DB_NAME,
+  allowExitOnIdle: true,
 });
 
 pool.on("error", (err, _client) => {

@@ -7,12 +7,12 @@ interface IPost {
 }
 
 const postSchema = `
-    CREATE TABLE IF NOT EXISTS Posts (
-        id SERIAL PRIMARY KEY,
-        title VARCHAR(255) NOT NULL,
-        content TEXT NOT NULL,
-        author INT REFERENCES users(id),
-        createdAt TIMESTAMP DEFAULT NOW()
-    )`;
+  CREATE TABLE IF NOT EXISTS Posts (
+    id SERIAL PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    content TEXT NOT NULL,
+    author INT REFERENCES users(id) ON DELETE CASCADE,
+    createdAt TIMESTAMP DEFAULT NOW()
+  )`;
 
 export { IPost, postSchema };

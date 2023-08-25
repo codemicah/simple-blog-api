@@ -8,6 +8,7 @@ export const commentValidationRules = () => body("content").isString();
 
 export const createComment = async (req: Request, res: Response) => {
   try {
+    const { user } = req;
     const { postId } = req.params;
     // parse postId for strict validation
     const parsedPostId = Number(postId);
@@ -25,7 +26,7 @@ export const createComment = async (req: Request, res: Response) => {
     const comment = {
       content: req.body.content,
       postId: posts[0].id,
-      userId: posts[0].author,
+      userId: user.id,
     };
 
     const response = await CreateComment(comment);
