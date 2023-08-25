@@ -5,7 +5,7 @@ import {
   getAllUsers,
   userValidationRules,
 } from "../controllers/user.controller";
-import validateRequest from "../utils/requestValidator";
+import validateRequest from "../middlewares/requestValidator";
 import {
   createPost,
   postValidationRules,

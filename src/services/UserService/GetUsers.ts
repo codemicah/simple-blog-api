@@ -1,7 +1,7 @@
 import { IUser } from "../../models/user";
 import dbQuery from "../../config/database";
 
-export const GetAllUsers = async () => {
+export const GetAllUsers = async (): Promise<IUser[]> => {
   const query = {
     text: "SELECT id,firstName, lastName, email, totalPosts FROM Users",
   };

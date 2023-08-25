@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { body } from "express-validator";
 import { errorResponse, successResponse } from "../utils/responseHandler";
 import { CreateUser, GetAllUsers, UserExists } from "../services/UserService";
-import { GetAllUserPosts } from "../services/PostService";
+import { GetPosts } from "../services/PostService";
 
 export const userValidationRules = () => [
   body(["firstName", "lastName"]).isString(),
@@ -32,7 +32,7 @@ export const getAllUsers = async (_req: Request, res: Response) => {
   try {
     const response = await GetAllUsers();
 
-    return successResponse(res, 201, response);
+    return successResponse(res, 200, response);
   } catch (error: any) {
     return errorResponse(res, 500, error.message);
   }
@@ -49,9 +49,9 @@ export const getAllUserPosts = async (req: Request, res: Response) => {
       return errorResponse(res, 400, "Invalid user id");
     }
 
-    const response = await GetAllUserPosts(id);
+    const response = await GetPosts({ author: id });
 
-    return successResponse(res, 201, response);
+    return successResponse(res, 200, response);
   } catch (error: any) {
     return errorResponse(res, 500, error.message);
   }
