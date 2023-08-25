@@ -10,10 +10,12 @@ export const postValidationRules = () => [
 
 export const createPost = async (req: Request, res: Response) => {
   try {
-    const { id } = req.params;
+    let { id } = req.params;
     const { title, content } = req.body;
+    // convert to number for struct checking
+    const userId = Number(id);
 
-    if (!UserExists({ id })) {
+    if (!userId || !UserExists({ id })) {
       return errorResponse(res, 400, "Invalid user id");
     }
 

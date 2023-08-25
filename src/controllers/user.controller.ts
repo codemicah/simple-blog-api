@@ -42,6 +42,13 @@ export const getAllUserPosts = async (req: Request, res: Response) => {
   try {
     const { id } = req.params;
 
+    // convert to number for struct checking
+    const userId = Number(id);
+
+    if (!userId || !UserExists({ id })) {
+      return errorResponse(res, 400, "Invalid user id");
+    }
+
     const response = await GetAllUserPosts(id);
 
     return successResponse(res, 201, response);
