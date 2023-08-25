@@ -14,7 +14,7 @@ export const createUser = async (req: Request, res: Response) => {
   try {
     const { firstName, lastName, email, password } = req.body;
 
-    if (await UserExists(email)) {
+    if (await UserExists({ email })) {
       return errorResponse(res, 409, "User exists");
     }
 
