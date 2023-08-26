@@ -1,6 +1,6 @@
 import supertest from "supertest";
-import app from "../app";
-import dbQuery from "../config/database";
+import app from "../src/app";
+import dbQuery from "../src/config/database";
 
 const request = supertest(app);
 
